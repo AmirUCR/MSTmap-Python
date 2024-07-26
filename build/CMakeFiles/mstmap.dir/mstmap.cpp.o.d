@@ -1,7 +1,7 @@
 CMakeFiles/mstmap.dir/mstmap.cpp.o: \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/mstmap.cpp \
+ /data/home/amohs002/projects/research/MSTmap_python/mstmap.cpp \
  /usr/include/stdc-predef.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/mstmap.h \
+ /data/home/amohs002/projects/research/MSTmap_python/mstmap.h \
  /usr/include/c++/9/iostream \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -143,8 +143,8 @@ CMakeFiles/mstmap.dir/mstmap.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++io.h \
  /usr/include/c++/9/bits/fstream.tcc /usr/include/c++/9/cassert \
  /usr/include/assert.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/constants.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/linkage_group_DH.h \
+ /data/home/amohs002/projects/research/MSTmap_python/constants.h \
+ /data/home/amohs002/projects/research/MSTmap_python/linkage_group_DH.h \
  /usr/include/c++/9/vector /usr/include/c++/9/bits/stl_construct.h \
  /usr/include/c++/9/bits/stl_uninitialized.h \
  /usr/include/c++/9/bits/stl_vector.h \
@@ -173,8 +173,8 @@ CMakeFiles/mstmap.dir/mstmap.cpp.o: \
  /usr/include/c++/9/bits/algorithmfwd.h \
  /usr/include/c++/9/bits/stl_tempbuf.h \
  /usr/include/c++/9/bits/uniform_int_dist.h /usr/include/c++/9/limits \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/MSTOpt.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/genetic_map_DH.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/linkage_group_struct.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/genetic_map_RIL.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/linkage_group_RIL.h
+ /data/home/amohs002/projects/research/MSTmap_python/MSTOpt.h \
+ /data/home/amohs002/projects/research/MSTmap_python/genetic_map_DH.h \
+ /data/home/amohs002/projects/research/MSTmap_python/linkage_group_struct.h \
+ /data/home/amohs002/projects/research/MSTmap_python/genetic_map_RIL.h \
+ /data/home/amohs002/projects/research/MSTmap_python/linkage_group_RIL.h

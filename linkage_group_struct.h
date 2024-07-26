@@ -54,6 +54,10 @@ public:
         lg_vector.clear();
     }
 
+    int get_num_linkage_groups() {
+        return lg_vector.size();
+    }
+
     // Get and display a struct by index
     void display_lg_by_index(size_t index) const {
         if (index < lg_vector.size()) {

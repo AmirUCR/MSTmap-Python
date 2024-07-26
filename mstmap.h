@@ -73,6 +73,7 @@ public:
     int get_lg_size_by_index(int index);
     int get_lg_num_bins_by_index(int index);
     void display_lg_by_index(int index);
+    int get_num_linkage_groups();
 
 private:
     void reset_args();

@@ -1,7 +1,7 @@
 CMakeFiles/mstmap.dir/genetic_map_DH.cpp.o: \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/genetic_map_DH.cpp \
+ /data/home/amohs002/projects/research/MSTmap_python/genetic_map_DH.cpp \
  /usr/include/stdc-predef.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/genetic_map_DH.h \
+ /data/home/amohs002/projects/research/MSTmap_python/genetic_map_DH.h \
  /usr/include/c++/9/iostream \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -157,12 +157,12 @@ CMakeFiles/mstmap.dir/genetic_map_DH.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
  /usr/include/c++/9/ctime \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/constants.h \
+ /data/home/amohs002/projects/research/MSTmap_python/constants.h \
  /usr/include/c++/9/queue /usr/include/c++/9/deque \
  /usr/include/c++/9/bits/stl_deque.h /usr/include/c++/9/bits/deque.tcc \
  /usr/include/c++/9/bits/stl_heap.h /usr/include/c++/9/bits/stl_queue.h \
  /usr/include/c++/9/bits/uses_allocator.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/linkage_group_DH.h \
+ /data/home/amohs002/projects/research/MSTmap_python/linkage_group_DH.h \
  /usr/include/c++/9/cassert /usr/include/assert.h \
  /usr/include/c++/9/utility /usr/include/c++/9/bits/stl_relops.h \
  /usr/include/c++/9/set /usr/include/c++/9/bits/stl_tree.h \
@@ -173,5 +173,5 @@ CMakeFiles/mstmap.dir/genetic_map_DH.cpp.o: \
  /usr/include/c++/9/bits/algorithmfwd.h \
  /usr/include/c++/9/bits/stl_tempbuf.h \
  /usr/include/c++/9/bits/uniform_int_dist.h /usr/include/c++/9/limits \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/MSTOpt.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/linkage_group_struct.h
+ /data/home/amohs002/projects/research/MSTmap_python/MSTOpt.h \
+ /data/home/amohs002/projects/research/MSTmap_python/linkage_group_struct.h

@@ -1,7 +1,7 @@
 CMakeFiles/mstmap.dir/linkage_group_DH.cpp.o: \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/linkage_group_DH.cpp \
+ /data/home/amohs002/projects/research/MSTmap_python/linkage_group_DH.cpp \
  /usr/include/stdc-predef.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/linkage_group_DH.h \
+ /data/home/amohs002/projects/research/MSTmap_python/linkage_group_DH.h \
  /usr/include/c++/9/iostream \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -170,5 +170,5 @@ CMakeFiles/mstmap.dir/linkage_group_DH.cpp.o: \
  /usr/include/c++/9/bits/algorithmfwd.h \
  /usr/include/c++/9/bits/stl_tempbuf.h \
  /usr/include/c++/9/bits/uniform_int_dist.h /usr/include/c++/9/limits \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/constants.h \
- /home/amohs002/projects/research/MSTmap_python/MSTmap/MSTOpt.h
+ /data/home/amohs002/projects/research/MSTmap_python/constants.h \
+ /data/home/amohs002/projects/research/MSTmap_python/MSTOpt.h

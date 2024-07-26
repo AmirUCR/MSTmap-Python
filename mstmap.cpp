@@ -464,3 +464,7 @@ int MSTmap::get_lg_num_bins_by_index(int index) {
 void MSTmap::display_lg_by_index(int index) {
     this->lg_manager->display_lg_by_index(index);
 }
+
+int MSTmap::get_num_linkage_groups() {
+    return this->lg_manager->get_num_linkage_groups();
+}
