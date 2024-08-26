@@ -205,9 +205,6 @@ cdef class PyMSTmap:
 
         chr_diagram.draw(name, "MSTmap Linkage Groups")
 
-    def 
-
-
 # Replacement function for basicchromosome. The difference is that it draws a
 # straight line through the middle for each marker.
 def _overdraw_subcomponents_with_middle(self, cur_drawing):
