@@ -1,2 +1,5 @@
 figure.ipynb
 restart.sh
+mstmap.egg-info/
+build/
+dist/

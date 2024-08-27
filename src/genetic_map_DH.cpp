@@ -832,6 +832,11 @@ LGManager* genetic_map::write_output(ostream& _output)
         this->lg_manager->add(result_lg);
     }
 
+    std::cout << this->lg_manager->get_num_linkage_groups();
+    std::cout << this->lg_manager->get_num_linkage_groups();
+    std::cout << this->lg_manager->get_num_linkage_groups();
+    std::cout << this->lg_manager->get_num_linkage_groups();
+
     return this->lg_manager;
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

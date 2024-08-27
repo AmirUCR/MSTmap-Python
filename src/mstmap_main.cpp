@@ -393,7 +393,12 @@ void MSTmap::run_from_file(const std::string& input_file, bool quiet) {
         this->barley = new genetic_map_DH();
     }
     else {
-        this->barley = new genetic_map_RIL();    
+        this->barley = new genetic_map_RIL();
+    }
+
+    if (this->is_set_output_file == false) {
+        this->output_file = default_output_file;
+        this->is_set_output_file = true;
     }
 
     this->barley->set_quiet(quiet);
@@ -401,7 +406,7 @@ void MSTmap::run_from_file(const std::string& input_file, bool quiet) {
     this->barley->generate_map();
     
     std::ofstream output_stream(this->output_file);
-    this->barley->write_output(output_stream);
+    this->lg_manager = this->barley->write_output(output_stream);
     output_stream.close();
     
     delete barley;
@@ -420,9 +425,9 @@ void MSTmap::run(bool quiet) {
     this->barley->read_mapping_data_with_args(this->input_file);
     this->barley->generate_map();
     
-    std::ofstream output_file(this->output_file);
-    this->lg_manager = this->barley->write_output(output_file);
-    output_file.close();
+    std::ofstream output_stream(this->output_file);
+    this->lg_manager = this->barley->write_output(output_stream);
+    output_stream.close();
     
     delete barley;
     this->barley = nullptr;
