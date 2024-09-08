@@ -20,7 +20,7 @@ public:
 
     void check_if_population_type_is_set();
     void check_all_args_are_set();
-    void set_default_args();
+    void set_default_args(const std::string& population_type);
     void summary();
 
     void set_population_type(const std::string& population_type);

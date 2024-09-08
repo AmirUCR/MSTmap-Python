@@ -9,6 +9,7 @@ from cython.operator cimport dereference as deref
 from cython.operator cimport address as addr
 
 # Python Modules
+import pandas
 from reportlab.lib.units import cm
 from Bio.Graphics import BasicChromosome
 from reportlab.graphics.shapes import Rect
@@ -18,9 +19,9 @@ from Bio.Graphics.GenomeDiagram import _Colors
 cdef extern from "mstmap.h":
     cdef cppclass MSTmap:
         MSTmap()
-        void set_default_args() except +
+        void set_default_args(string poptype) except +
         void summary() except +
-        void set_population_type(string type) except +
+        void set_population_type(string poptype) except +
         void set_input_file(string path) except +
         void set_output_file(string path) except +
         void set_population_name(string name) except +
@@ -57,16 +58,23 @@ cdef class PyMSTmap:
     def __dealloc__(self):
         del self.cpp_mstmap
     
-    def set_default_args(self):
-        self.cpp_mstmap.set_default_args()
+    def set_default_args(self, str poptype):
+        self.cpp_mstmap.set_default_args(poptype.encode('utf-8'))
     
     def summary(self):
         self.cpp_mstmap.summary()
     
-    def set_population_type(self, str type):
-        self.cpp_mstmap.set_population_type(type.encode('utf-8'))
+    def set_population_type(self, str poptype):
+        self.cpp_mstmap.set_population_type(poptype.encode('utf-8'))
     
     def set_input_file(self, str path):
+        df = pandas.read_csv(path, engine='python', sep=None)
+        n1, n2 = df.shape
+        n2 = n2 - 1
+
+        self.cpp_mstmap.set_number_of_individual(n2)
+        self.cpp_mstmap.set_number_of_loci(n1)
+
         self.cpp_mstmap.set_input_file(path.encode('utf-8'))
     
     def set_output_file(self, str path):
@@ -90,11 +98,25 @@ cdef class PyMSTmap:
     def set_missing_threshold(self, double threshold):
         self.cpp_mstmap.set_missing_threshold(threshold)
     
-    def set_estimation_before_clustering(self, str estimation):
-        self.cpp_mstmap.set_estimation_before_clustering(estimation.encode('utf-8'))
+    def set_estimation_before_clustering(self, bool estimation):
+        to_mst = ""
+
+        if estimation == True:
+            to_mst = "yes"
+        else:
+            to_mst = "no"
+
+        self.cpp_mstmap.set_estimation_before_clustering(to_mst.encode('utf-8'))
     
-    def set_detect_bad_data(self, str detect):
-        self.cpp_mstmap.set_detect_bad_data(detect.encode('utf-8'))
+    def set_detect_bad_data(self, bool detect):
+        to_mst = ""
+
+        if detect == True:
+            to_mst = "yes"
+        else:
+            to_mst = "no"
+
+        self.cpp_mstmap.set_detect_bad_data(to_mst.encode('utf-8'))
     
     def set_objective_function(self, str function):
         self.cpp_mstmap.set_objective_function(function.encode('utf-8'))
@@ -141,10 +163,16 @@ cdef class PyMSTmap:
     def get_num_linkage_groups(self):
         return self.cpp_mstmap.get_num_linkage_groups()
 
-    def draw_linkage_map(self, str name="linkage_map.pdf"):
+    def draw_linkage_map(self, name="linkage_map.pdf"):
         BasicChromosome.AnnotatedChromosomeSegment._overdraw_subcomponents = _overdraw_subcomponents_with_middle
 
         num_lg = self.get_num_linkage_groups()
+
+        most_markers = 0
+        for nlg in range(num_lg):
+            nm = len(self.get_lg_markers_by_index(nlg))
+            if nm > most_markers:
+                most_markers = nm
 
         position_lists = list()
         marker_name_lists = list()
@@ -154,29 +182,47 @@ cdef class PyMSTmap:
 
         chr_diagram = BasicChromosome.Organism()
 
+        maxlens = []
+        for sublist in marker_name_lists:
+            lens = [len(e) for e in sublist]
+            maxlens.append(max(lens))
+
         max_len = max(max(sub_list) for sub_list in position_lists)
+
+        y = max(0.8 * max_len, 0.14 * most_markers, 21)
+        x = max(num_lg * 5 + max(maxlens), 10)
+
+        chr_diagram.page_size = (x * cm, y * cm)
+
+        if max_len == 0:
+            max_len = 1
+
+        telomere_length = 0.1
 
         for nlg in range(num_lg):
             positions = position_lists[nlg]
             marker_names = marker_name_lists[nlg]
 
-            telomere_length = max_len / 10
             spacer_length = 0.20 * max_len
+            middle_len = max(position_lists[nlg])
+
+            if middle_len == 0:
+                middle_len = 0.01
 
             cur_chromosome = BasicChromosome.Chromosome(f'LG{nlg}')
             # Set the scale to the MAXIMUM length plus the two telomeres in bp,
             # want the same scale used on all five chromosomes so they can be
             # compared to each other
-            cur_chromosome.scale_num = max_len + 2 * telomere_length + 2 * spacer_length
-
+            cur_chromosome.scale_num = max_len + 2 * telomere_length
+            
             features = list()
             for idx, marker in enumerate(marker_names):
                 features.append((positions[idx], positions[idx], -1, str(positions[idx]), nlg+1))
                 features.append((positions[idx], positions[idx], 1, marker, nlg+1))
 
-            spacer = BasicChromosome.SpacerSegment()
-            spacer.scale = spacer_length
-            cur_chromosome.add(spacer)
+            # spacer = BasicChromosome.SpacerSegment()
+            # spacer.scale = spacer_length
+            # cur_chromosome.add(spacer)
 
             # Add an opening telomere
             start = BasicChromosome.TelomereSegment()
@@ -184,8 +230,8 @@ cdef class PyMSTmap:
             cur_chromosome.add(start)
 
             # Add a body - using bp as the scale length here.
-            body = BasicChromosome.AnnotatedChromosomeSegment(max(positions), features)
-            body.scale = max(positions)
+            body = BasicChromosome.AnnotatedChromosomeSegment(middle_len, features)
+            body.scale = middle_len
             cur_chromosome.add(body)
 
             # Add a closing telomere
@@ -193,9 +239,9 @@ cdef class PyMSTmap:
             end.scale = telomere_length
             cur_chromosome.add(end)
 
-            spacer = BasicChromosome.SpacerSegment()
-            spacer.scale = spacer_length
-            cur_chromosome.add(spacer)
+            # spacer = BasicChromosome.SpacerSegment()
+            # spacer.scale = spacer_length
+            # cur_chromosome.add(spacer)
 
             # This chromosome is done
             chr_diagram.add(cur_chromosome)
@@ -250,16 +296,6 @@ def _overdraw_subcomponents_with_middle(self, cur_drawing):
             else:
                 fill_color = color
         assert 0 <= start <= end <= self.bp_length
-        # if strand == +1:
-        #     # Right side only
-        #     x = segment_x + segment_width * 0.6
-        #     w = segment_width * 0.4
-        # elif strand == -1:
-        #     # Left side only
-        #     x = segment_x
-        #     w = segment_width * 0.4
-        # else:
-            # Both or neither - full width
         x = segment_x
         w = segment_width
         local_scale = segment_height / self.bp_length

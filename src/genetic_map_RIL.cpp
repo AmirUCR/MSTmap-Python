@@ -147,7 +147,6 @@ linkage_group_RIL* genetic_map_RIL::construct_linkage_group_whole_map(){
 
 void genetic_map_RIL::generate_map()
 {
-   
     gen_raw_prob_data();
     
     const char* ppl_type = population_type.c_str();

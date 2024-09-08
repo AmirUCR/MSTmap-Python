@@ -10,13 +10,22 @@ MSTmap::~MSTmap() {
     }
 }
 
-void MSTmap::set_default_args() {
+void MSTmap::set_default_args(const std::string& population_type) {
     if (this->barley != nullptr) {
         delete this->barley;
         this->barley = nullptr;
     }
-    this->barley = new genetic_map_DH();
-    this->barley->set_population_type(default_population_type);
+
+    this->check_population_type(population_type);
+
+    if (population_type == "DH") {
+        this->barley = new genetic_map_DH();
+    }
+    else {
+        this->barley = new genetic_map_RIL();
+    }
+
+    this->barley->set_population_type(population_type);
     this->is_set_population_type = true;
 
     this->barley->set_population_name(default_population_name);
@@ -129,8 +138,12 @@ void MSTmap::check_if_population_type_is_set() {
 
 // --
 void MSTmap::check_population_type(const std::string& population_type) {
-    if (population_type != "DH" && population_type != "RIL") {
-        throw std::runtime_error("Population type must be either DH or RIL.");
+    if (population_type != "DH" &&
+        !(population_type.size() == 4 && population_type.substr(0, 3) == "RIL" &&
+          population_type[3] >= '2' && population_type[3] <= '9') &&
+        !(population_type.size() == 5 && population_type.substr(0, 3) == "RIL" &&
+          population_type[3] == '1' && population_type[4] == '0')) {
+        throw std::runtime_error("Population type must be either DH, RIL, or RIL2 to RIL10.");
     }
 }
 
@@ -141,10 +154,11 @@ void MSTmap::set_population_type(const std::string& population_type) {
         delete this->barley;
         this->barley = nullptr;
     }
-    if (population_type == "DH") {
+
+    if (this->population_type == "DH") {
         this->barley = new genetic_map_DH();
     }
-    else if (population_type == "RIL") {
+    else {
         this->barley = new genetic_map_RIL();
     }
 
@@ -170,7 +184,7 @@ void MSTmap::check_distance_function(const std::string& distance_function) {
 
 void MSTmap::set_distance_function(const std::string& distance_function) {
     this->check_if_population_type_is_set();
-    this->set_distance_function(distance_function);
+    this->check_distance_function(distance_function);
     
     if (distance_function == "kosambi") {
         this->barley->set_df("kosambi");

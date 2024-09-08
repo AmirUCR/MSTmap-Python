@@ -3,3 +3,5 @@ restart.sh
 mstmap.egg-info/
 build/
 dist/
+data/
+*.pdf

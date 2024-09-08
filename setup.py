@@ -29,7 +29,7 @@ extensions = [
 
 setup(
     name='mstmap',
-    version='1.0.8',
+    version='1.1.1',
     author='Amirsadra Mohseni',
     author_email='amohs002@ucr.edu',
     description='A C++ library for genetic mapping with Cython interface',
