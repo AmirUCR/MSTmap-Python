@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.7  # cibuildwheel will handle other versions
+          python-version: 3.9  # cibuildwheel will handle other versions
 
       - name: Install cibuildwheel
         run: pip install cibuildwheel
