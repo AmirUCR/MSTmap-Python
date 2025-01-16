@@ -1,0 +1,37 @@
+name: Build Wheels
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7  # cibuildwheel will handle other versions
+
+      - name: Install cibuildwheel
+        run: pip install cibuildwheel
+
+      - name: Build wheels
+        run: cibuildwheel --platform ${{ matrix.platform }}
+
+      - name: Upload wheels as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: wheelhouse/
