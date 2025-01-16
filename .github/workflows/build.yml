@@ -28,7 +28,7 @@ jobs:
         run: pip install cibuildwheel
 
       - name: Build wheels
-        run: cibuildwheel --platform ${{ matrix.platform }}
+        run: cibuildwheel --platform linux
 
       - name: Upload wheels as artifacts
         uses: actions/upload-artifact@v3
