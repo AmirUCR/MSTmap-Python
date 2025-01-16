@@ -16,6 +16,23 @@ from reportlab.graphics.shapes import Rect
 from Bio.Graphics.GenomeDiagram import _Colors
 # ---
 
+from reportlab.graphics.shapes import ArcPath
+from reportlab.graphics.shapes import Drawing
+from reportlab.graphics.shapes import Line
+from reportlab.graphics.shapes import Rect
+from reportlab.graphics.shapes import String
+from reportlab.graphics.shapes import Wedge
+from reportlab.graphics.widgetbase import Widget
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.lib.units import mm
+from reportlab.pdfbase.pdfmetrics import stringWidth
+
+from Bio.Graphics import _write
+from Bio.Graphics.GenomeDiagram import _Colors
+_color_trans = _Colors.ColorTranslator()
+
 cdef extern from "mstmap.h":
     cdef cppclass MSTmap:
         MSTmap()
@@ -165,6 +182,8 @@ cdef class PyMSTmap:
 
     def draw_linkage_map(self, name="linkage_map.pdf"):
         BasicChromosome.AnnotatedChromosomeSegment._overdraw_subcomponents = _overdraw_subcomponents_with_middle
+        BasicChromosome.Chromosome._draw_label = _draw_label_but_less_ugly
+        BasicChromosome.Organism.draw = my_own_draw
 
         num_lg = self.get_num_linkage_groups()
 
@@ -189,8 +208,8 @@ cdef class PyMSTmap:
 
         max_len = max(max(sub_list) for sub_list in position_lists)
 
-        y = max(0.8 * max_len, 0.14 * most_markers, 21)
-        x = max(num_lg * 5 + max(maxlens), 10)
+        y = max(0.3 * max_len, 0.14 * most_markers, 14)
+        x = max(num_lg * 7, 7)
 
         chr_diagram.page_size = (x * cm, y * cm)
 
@@ -217,8 +236,8 @@ cdef class PyMSTmap:
             
             features = list()
             for idx, marker in enumerate(marker_names):
-                features.append((positions[idx], positions[idx], -1, str(positions[idx]), nlg+1))
-                features.append((positions[idx], positions[idx], 1, marker, nlg+1))
+                features.append((positions[idx], positions[idx], -1, str(positions[idx]), 1))
+                features.append((positions[idx], positions[idx], 1, marker, 1))
 
             # spacer = BasicChromosome.SpacerSegment()
             # spacer.scale = spacer_length
@@ -226,16 +245,19 @@ cdef class PyMSTmap:
 
             # Add an opening telomere
             start = BasicChromosome.TelomereSegment()
+            start.fill_color = _color_trans.translate('#8d8bff')
             start.scale = telomere_length
             cur_chromosome.add(start)
 
             # Add a body - using bp as the scale length here.
             body = BasicChromosome.AnnotatedChromosomeSegment(middle_len, features)
+            body.fill_color = _color_trans.translate('#8d8bff')
             body.scale = middle_len
             cur_chromosome.add(body)
 
             # Add a closing telomere
             end = BasicChromosome.TelomereSegment(inverted=True)
+            end.fill_color = _color_trans.translate('#8d8bff')
             end.scale = telomere_length
             cur_chromosome.add(end)
 
@@ -249,7 +271,65 @@ cdef class PyMSTmap:
         if not name.endswith('.pdf'):
             name = name + '.pdf'
 
-        chr_diagram.draw(name, "MSTmap Linkage Groups")
+        chr_diagram.draw(name, "")
+
+def my_own_draw(self, output_file, title):
+    """Draw out the information for the Organism.
+
+    Arguments:
+        - output_file -- The name of a file specifying where the
+        document should be saved, or a handle to be written to.
+        The output format is set when creating the Organism object.
+        Alternatively, output_file=None will return the drawing using
+        the low-level ReportLab objects (for further processing, such
+        as adding additional graphics, before writing).
+        - title -- The output title of the produced document.
+
+    """
+    width, height = self.page_size
+    cur_drawing = Drawing(width, height)
+
+    self._draw_title(cur_drawing, title, width, height)
+
+    cur_x_pos = cm * 0.5 * 5
+    if len(self._sub_components) > 0:
+        x_pos_change = (width - cm * 5) / len(self._sub_components)
+    # no sub_components
+    else:
+        pass
+
+    for sub_component in self._sub_components:
+        # set the drawing location of the chromosome
+        sub_component.start_x_position = cur_x_pos + 0.4 * x_pos_change
+        sub_component.end_x_position = cur_x_pos + 0.6 * x_pos_change
+        sub_component.start_y_position = height - 0.25 * inch
+        sub_component.end_y_position = self._legend_height + 0.165 * inch
+
+        # do the drawing
+        sub_component.draw(cur_drawing)
+
+        # update the locations for the next chromosome
+        cur_x_pos += x_pos_change
+
+    self._draw_legend(cur_drawing, self._legend_height + 0.5 * cm, width)
+
+    if output_file is None:
+        # Let the user take care of writing to the file...
+        return cur_drawing
+
+    return _write(cur_drawing, output_file, self.output_format)
+
+def _draw_label_but_less_ugly(self, cur_drawing, label_name):
+    """Draw a label for the chromosome (PRIVATE)."""
+    x_position = 0.5 * (self.start_x_position + self.end_x_position)
+    y_position = self.end_y_position
+
+    label_string = String(x_position, y_position, label_name)
+    label_string.fontName = "Times-Roman"
+    label_string.fontSize = 12
+    label_string.textAnchor = "middle"
+
+    cur_drawing.add(label_string)
 
 # Replacement function for basicchromosome. The difference is that it draws a
 # straight line through the middle for each marker.
@@ -278,7 +358,7 @@ def _overdraw_subcomponents_with_middle(self, cur_drawing):
             strand = f.location.strand
             try:
                 # Handles Artemis colour integers, HTML colors, etc
-                color = _color_trans.translate(f.qualifiers["color"][0])
+                color = _color_trans.translate(f[5])
             except Exception:
                 color = self.default_feature_color
             fill_color = color
@@ -298,6 +378,7 @@ def _overdraw_subcomponents_with_middle(self, cur_drawing):
         assert 0 <= start <= end <= self.bp_length
         x = segment_x
         w = segment_width
+        
         local_scale = segment_height / self.bp_length
         fill_rectangle = Rect(
             x,

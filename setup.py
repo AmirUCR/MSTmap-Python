@@ -22,14 +22,14 @@ extensions = [
             os.path.join("src", "MSTOpt.cpp")
         ],
         language="c++",
-        extra_compile_args=["-std=c++11"],  # Adjust C++ standard if necessary
+        extra_compile_args=["-std=c++11"],
         include_dirs=[include_dir],  # Use the portable include directory
     )
 ]
 
 setup(
     name='mstmap',
-    version='1.1.1',
+    version='1.1.2',
     author='Amirsadra Mohseni',
     author_email='amohs002@ucr.edu',
     description='A C++ library for genetic mapping with Cython interface',
