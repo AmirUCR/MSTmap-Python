@@ -95,7 +95,7 @@ void MSTmap::reset_args() {
 }
 
 void MSTmap::check_all_args_are_set() {
-    if (this->barley == nullptr) throw std::runtime_error("Please initialize MSTmap with set_default_args() or set_population_type(pop_type) first before calling run().");
+    if (this->barley == nullptr) throw std::runtime_error("Please initialize PyMSTmap with set_default_args(pop_type) first before calling run().");
     if (!is_set_population_type) throw std::runtime_error("Population type is not set.");
     if (!is_set_input_file) throw std::runtime_error("Input file is not set.");
     if (!is_set_output_file) throw std::runtime_error("Output file is not set.");
@@ -113,7 +113,7 @@ void MSTmap::check_all_args_are_set() {
 }
 
 void MSTmap::summary() {
-    if (this->barley == nullptr) throw std::runtime_error("Please initialize MSTmap with set_default_args() or set_population_type(pop_type) first before calling summary().");
+    if (this->barley == nullptr) throw std::runtime_error("Please initialize PyMSTmap with set_default_args(pop_type) first before calling summary().");
     std::cout << "Population type: " << this->barley->get_population_type() << std::endl;
     std::cout << "Population name: " << this->barley->get_population_name() << std::endl;
     std::cout << "Distance function: " << this->distance_function << std::endl;
@@ -133,7 +133,7 @@ void MSTmap::summary() {
 void MSTmap::check_if_population_type_is_set() {
     if (!this->is_set_population_type) {
         throw std::runtime_error("Please set the population type to either DH or RIL first by calling set_population_type(str).");
-    }
+    } 
 }
 
 // --
