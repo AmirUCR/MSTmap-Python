@@ -28,10 +28,7 @@ jobs:
           CIBW_SKIP: "pp*"
           CIBW_BEFORE_BUILD: |
             yum install -y libjpeg-devel zlib-devel gcc gcc-c++ libffi-devel python3-devel
-            if [[ "${CIBW_PYTHON_IMPLEMENTATION}" == "pypy" ]]; then
-              pip install --upgrade "setuptools<72.2.0";
-            fi
-            pip install --upgrade pip wheel
+            pip install --upgrade pip setuptools wheel
         run: cibuildwheel --platform linux
 
       # Step 4: Upload wheels to PyPI
