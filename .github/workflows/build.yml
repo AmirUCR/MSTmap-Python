@@ -26,7 +26,7 @@ jobs:
         env:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_ARCHS: x86_64  # Build only for 64-bit architecture
-          CIBW_SKIP: "pp*"    # Skip all PyPy builds
+          CIBW_SKIP: "musllinux* pp*"  # Skip musllinux and PyPy builds
           CIBW_BEFORE_BUILD: |
             yum install -y libjpeg-devel zlib-devel gcc gcc-c++ libffi-devel python3-devel
             pip install --upgrade pip setuptools wheel
