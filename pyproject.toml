@@ -4,3 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [tools.setuptools]
 license-file = []
+
+[project]
+dependencies = [
+  "numpy",
+  "pandas",
+  "cython",
+  "biopython",
+  "reportlab"
+]

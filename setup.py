@@ -29,7 +29,7 @@ extensions = [
 
 setup(
     name='mstmap',
-    version='1.1.2',
+    version='1.1.3',
     author='Amirsadra Mohseni',
     author_email='amohs002@ucr.edu',
     description='A Python library for genetic mapping',
@@ -42,4 +42,11 @@ setup(
     license="Apache License 2.0",  # Specify the license name
     license_files=["LICENSE"],
     packages=find_namespace_packages(include=["pandas*"]),
+    install_requires=[
+        "numpy",
+        "pandas",
+        "cython",
+        "biopython",
+        "reportlab"
+    ],
 )
