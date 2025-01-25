@@ -1,3 +1,22 @@
 [build-system]
 requires = ["numpy", "pandas", "setuptools", "cython", "biopython", "reportlab"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "mstmap"
+version = "1.1.2"
+description = "A Python library for genetic mapping"
+readme = "README.md"
+requires-python = ">=3.7"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Amirsadra Mohseni", email = "amohs002@ucr.edu" }
+]
+
+dependencies = [
+  "numpy",
+  "pandas",
+  "cython",
+  "biopython",
+  "reportlab"
+]

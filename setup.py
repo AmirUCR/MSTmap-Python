@@ -32,7 +32,7 @@ setup(
     version='1.1.2',
     author='Amirsadra Mohseni',
     author_email='amohs002@ucr.edu',
-    description='A C++ library for genetic mapping with Cython interface',
+    description='A Python library for genetic mapping',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     ext_modules=cythonize(extensions),
