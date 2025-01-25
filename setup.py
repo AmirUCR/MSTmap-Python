@@ -1,4 +1,4 @@
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_namespace_packages
 from Cython.Build import cythonize
 import os
 
@@ -38,4 +38,6 @@ setup(
     ext_modules=cythonize(extensions),
     zip_safe=False,
     python_requires='>=3.7',
+    include_package_data=True,
+    packages=find_namespace_packages(include=["pandas*"]),
 )
