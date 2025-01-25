@@ -22,14 +22,16 @@ jobs:
         run: pip install cibuildwheel twine
 
       # Step 3: Debug environment variables
-      - name: Debug CIBW_SKIP
-        run: echo "CIBW_SKIP=$CIBW_SKIP"
+      - name: Debug Environment Variables
+        run: |
+          echo "CIBW_SKIP=$CIBW_SKIP"
+          echo "CIBW_MUSLLINUX_IMAGE=$CIBW_MUSLLINUX_IMAGE"
 
       # Step 4: Build wheels with manylinux2014
       - name: Build wheels
         env:
-          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
-          CIBW_ARCHS: x86_64  # Build only for 64-bit architecture
+          CIBW_ARCHS: x86_64  # Only build for 64-bit architecture
+          CIBW_MUSLLINUX_IMAGE: ""  # Disable musllinux builds
           CIBW_SKIP: "musllinux* pp*"  # Skip musllinux and PyPy builds
           CIBW_BEFORE_BUILD: |
             yum install -y libjpeg-devel zlib-devel gcc gcc-c++ libffi-devel python3-devel
