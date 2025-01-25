@@ -24,7 +24,7 @@ jobs:
 
       # Step 2: Install cibuildwheel
       - name: Install cibuildwheel
-        run: pip install cibuildwheel twine
+        run: pip install cibuildwheel "twine>=6.1.0" "packaging>=24.2"
 
       # Step 3: Debug Environment Variables
       - name: Debug Environment Variables
