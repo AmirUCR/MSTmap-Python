@@ -21,7 +21,11 @@ jobs:
       - name: Install cibuildwheel
         run: pip install cibuildwheel twine
 
-      # Step 3: Build wheels with manylinux2014
+      # Step 3: Debug environment variables
+      - name: Debug CIBW_SKIP
+        run: echo "CIBW_SKIP=$CIBW_SKIP"
+
+      # Step 4: Build wheels with manylinux2014
       - name: Build wheels
         env:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
@@ -32,7 +36,7 @@ jobs:
             pip install --upgrade pip setuptools wheel
         run: cibuildwheel --platform linux
 
-      # Step 4: Upload wheels to PyPI
+      # Step 5: Upload wheels to PyPI
       - name: Publish to PyPI
         if: github.ref == 'refs/heads/master'
         env:
