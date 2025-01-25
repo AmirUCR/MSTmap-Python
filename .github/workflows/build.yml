@@ -25,6 +25,7 @@ jobs:
       - name: Build wheels
         env:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+          CIBW_SKIP: "pp*"
           CIBW_BEFORE_BUILD: |
             yum install -y libjpeg-devel zlib-devel gcc gcc-c++ libffi-devel python3-devel
             if [[ "${CIBW_PYTHON_IMPLEMENTATION}" == "pypy" ]]; then
