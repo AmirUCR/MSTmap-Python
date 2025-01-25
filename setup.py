@@ -39,5 +39,7 @@ setup(
     zip_safe=False,
     python_requires='>=3.7',
     include_package_data=True,
+    license="Apache License 2.0",  # Specify the license name
+    license_files=["LICENSE"],
     packages=find_namespace_packages(include=["pandas*"]),
 )

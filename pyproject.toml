@@ -1,3 +1,7 @@
 [build-system]
 requires = ["numpy", "pandas", "setuptools", "cython", "biopython", "reportlab"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+license = "Apache License 2.0"
+license_files = ["LICENSE"]
