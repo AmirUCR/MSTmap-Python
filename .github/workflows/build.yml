@@ -24,9 +24,8 @@ jobs:
       # Step 3: Build wheels with manylinux2014
       - name: Build wheels
         env:
-          CIBW_BUILD: cp3?-manylinux2014_*  # Use manylinux2014 for Pillow compatibility
-          CIBW_BEFORE_BUILD: |
-            yum install -y libjpeg-devel zlib-devel
+          CIBW_MANYLINUX_I686_IMAGE: manylinux2014
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
         run: cibuildwheel --platform linux
 
       # Step 4: Upload wheels to PyPI
