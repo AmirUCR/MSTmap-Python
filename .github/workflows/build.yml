@@ -27,7 +27,10 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_BEFORE_BUILD: |
             yum install -y libjpeg-devel zlib-devel gcc gcc-c++ libffi-devel python3-devel
-            pip install --upgrade pip setuptools wheel
+            if [[ "${CIBW_PYTHON_IMPLEMENTATION}" == "pypy" ]]; then
+              pip install --upgrade "setuptools<72.2.0";
+            fi
+            pip install --upgrade pip wheel
         run: cibuildwheel --platform linux
 
       # Step 4: Upload wheels to PyPI
