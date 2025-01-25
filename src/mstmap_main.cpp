@@ -124,8 +124,8 @@ void MSTmap::summary() {
     std::cout << "Estimation before clustering: " << this->estimation_before_clustering << std::endl;
     std::cout << "Detect bad data: " << this->detect_bad_data << std::endl;
     std::cout << "Objective function: " << this->objective_function << std::endl;
-    std::cout << "Number of loci: " << this->barley->get_number_of_loci() << std::endl;
-    std::cout << "Number of individual: " << this->barley->get_number_of_individual() << std::endl;
+    // std::cout << "Number of loci: " << this->barley->get_number_of_loci() << std::endl;
+    // std::cout << "Number of individual: " << this->barley->get_number_of_individual() << std::endl;
     std::cout << "Input file: " << this->input_file << std::endl;
     std::cout << "Output file: " << this->output_file << std::endl;
 }
