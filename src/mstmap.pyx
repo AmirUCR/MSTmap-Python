@@ -151,7 +151,8 @@ cdef class PyMSTmap:
         self.cpp_mstmap.run(quiet)
     
     def get_lg_markers_by_index(self, int index):
-        return list(self.cpp_mstmap.get_lg_markers_by_index(index))
+        # Decode each byte string in the returned list to a regular Python string
+        return [s.decode('utf-8') for s in self.cpp_mstmap.get_lg_markers_by_index(index)]
     
     def display_lg_by_index(self, int index):
         self.cpp_mstmap.display_lg_by_index(index)
@@ -160,7 +161,8 @@ cdef class PyMSTmap:
         return list(self.cpp_mstmap.get_lg_distances_by_index(index))
     
     def get_lg_name_by_index(self, int index):
-        return self.cpp_mstmap.get_lg_name_by_index(index)
+        # Decode each byte string in the returned list to a regular Python string
+        return [s.decode('utf-8') for s in self.cpp_mstmap.get_lg_name_by_index(index)]
     
     def get_lg_lowerbound_by_index(self, int index):
         return self.cpp_mstmap.get_lg_lowerbound_by_index(index)
