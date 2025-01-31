@@ -29,7 +29,7 @@ extensions = [
 
 setup(
     name='mstmap',
-    version='1.1.3',
+    version='1.1.4',
     author='Amirsadra Mohseni',
     author_email='amohs002@ucr.edu',
     description='A Python library for genetic mapping',
