@@ -10,6 +10,7 @@ from cython.operator cimport address as addr
 
 # Python Modules
 import pandas
+import math
 from reportlab.lib.units import cm
 from Bio.Graphics import BasicChromosome
 from reportlab.graphics.shapes import Rect
@@ -71,6 +72,10 @@ cdef class PyMSTmap:
     
     def __cinit__(self):
         self.cpp_mstmap = new MSTmap()
+        self.num_loci = 0
+        self.num_indiv = 0
+        self.must_set_lod_before_run = False
+        self.lod_to_set_before_run = 0
     
     def __dealloc__(self):
         del self.cpp_mstmap
@@ -89,6 +94,9 @@ cdef class PyMSTmap:
         n1, n2 = df.shape
         n2 = n2 - 1
 
+        self.num_loci = n1
+        self.num_indiv = n2
+
         self.cpp_mstmap.set_number_of_individual(n2)
         self.cpp_mstmap.set_number_of_loci(n1)
 
@@ -105,6 +113,37 @@ cdef class PyMSTmap:
     
     def set_cut_off_p_value(self, double p_value):
         self.cpp_mstmap.set_cut_off_p_value(p_value)
+
+    def set_grouping_lod_criteria(self, int lod):
+
+        if lod < 0:
+            print("LOD was set to < 0. Setting to Single LG (0).")
+            lod = 0
+
+        if self.num_indiv != 0:
+            def convert_lod_p(lod, num_lines):
+                num_recom = 0
+                dist_lod = lod
+                for count in range(1, num_lines // 2):
+                    tmp_lod = 0
+                    tmp_lod += (num_lines - count) * math.log10((num_lines - count) / num_lines)
+                    tmp_lod += count * math.log10(count / num_lines)
+                    tmp_lod -= num_lines * math.log10(0.5)
+                    if abs(tmp_lod - lod) < dist_lod:
+                        dist_lod = abs(tmp_lod - lod)
+                        num_recom = count
+                t_value = 0.5 - num_recom / num_lines
+                p_value = math.exp(t_value * t_value * (-2.0) * num_lines)
+                return p_value
+
+            if lod <= 0:
+                self.cpp_mstmap.set_cut_off_p_value(2.0)
+            else:
+                self.cpp_mstmap.set_cut_off_p_value(convert_lod_p(lod, self.num_indiv))
+        else:
+            self.must_set_lod_before_run = True
+            self.lod_to_set_before_run = lod
+
     
     def set_no_map_dist(self, double dist):
         self.cpp_mstmap.set_no_map_dist(dist)
@@ -148,6 +187,9 @@ cdef class PyMSTmap:
         self.cpp_mstmap.run_from_file(input_file.encode('utf-8'), quiet)
     
     def run(self, bool quiet=False):
+        if self.must_set_lod_before_run:
+            self.set_grouping_lod_criteria(self.lod_to_set_before_run)
+
         self.cpp_mstmap.run(quiet)
     
     def get_lg_markers_by_index(self, int index):
