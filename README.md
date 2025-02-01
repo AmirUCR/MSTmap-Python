@@ -16,7 +16,9 @@ Install the package via `pip install mstmap`, also here [https://pypi.org/projec
 If you wish to install from this repo and not PyPI, download the repo and do the following, preferably in a virtual or Conda environment:
 
 `pip install cython`
+
 `python setup.py build_ext --inplace`
+
 `pip install .`
 
 # Support
