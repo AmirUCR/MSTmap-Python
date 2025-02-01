@@ -13,6 +13,12 @@ You may find the documentation for MSTmap Python at its [GitHub Wiki](https://gi
 
 Install the package via `pip install mstmap`, also here [https://pypi.org/project/mstmap/](https://pypi.org/project/mstmap/). Supported on Ubuntu Linux and Python >= 3.7.
 
+If you wish to install from this repo and not PyPI, download the repo and do the following, preferably in a virtual or Conda environment:
+
+`pip install cython`
+`python setup.py build_ext --inplace`
+`pip install .`
+
 # Support
 If you run into any issues or have suggestions for MSTmap Python or the web server, please report them on our GitHub Issues tracker. It's the fastest way to get support and helps us improve MSTmap for everyone.
 
