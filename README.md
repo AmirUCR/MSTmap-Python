@@ -1,5 +1,3 @@
-# MSTmap Python
-
 # Introduction
 MSTmap is a software tool that builds genetic linkage maps efficiently and accurately.
 
@@ -27,4 +25,8 @@ If you run into any issues or have suggestions for MSTmap Python or the web serv
 # About
 MSTmap Python and Online have been developed and are maintained by Amir Mohseni, and Stefano Lonardi at the University of California, Riverside.
 
-Wu, Yonghui, et al. "Efficient and accurate construction of genetic linkage maps from the minimum spanning tree of a graph." _PLoS genetics_ 4.10 (2008): e1000212.
+If you use MSTMap Online or any of the provided packages, please cite at least the latest paper:
+
+Mohseni, A., & Lonardi, S. (2025). MSTmap Online: enhanced usability, visualization, and accessibility. Nucleic Acids Research, _gkaf332_. 
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15192382.svg)](https://doi.org/10.5281/zenodo.15192382)
