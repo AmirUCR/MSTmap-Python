@@ -2,7 +2,7 @@
 MSTmap is a software tool that builds genetic linkage maps efficiently and accurately. It is published by Nucleic Acid Research [https://doi.org/10.1093/nar/gkaf332](https://doi.org/10.1093/nar/gkaf332)
 
 - Find the web version here [https://mstmap.org/](https://mstmap.org/)
-  - This repo contains the Python library for the original C++ software [https://github.com/ucrbioinfo/MSTmap](https://github.com/ucrbioinfo/MSTmap)
+- This repo contains the Python library for the original C++ software [https://github.com/ucrbioinfo/MSTmap](https://github.com/ucrbioinfo/MSTmap)
 - Extremely fast and computationally efficient
 - Written in Python, Cython, and C++
 
