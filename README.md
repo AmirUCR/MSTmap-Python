@@ -23,7 +23,7 @@ If you wish to install from this repo and not PyPI, download the repo and do the
 If you run into any issues or have suggestions for MSTmap Python or the web server, please report them on our GitHub Issues tracker. It's the fastest way to get support and helps us improve MSTmap for everyone.
 
 # About
-MSTmap Python and Online have been developed and are maintained by Amir Mohseni, and Stefano Lonardi at the University of California, Riverside.
+MSTmap Python and the online web-server have been developed and are maintained by <ins>Amir</ins>sadra Mohseni, and Stefano Lonardi at the University of California, Riverside.
 
 If you use MSTMap Online or any of the provided packages, please cite at least the latest paper:
 
